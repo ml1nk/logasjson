@@ -1,5 +1,5 @@
 {
     "$schema": "https://typedoc.org/schema.json",
-    "entryPoints": ["./packages/logasjson/src/index.ts"],
+    "entryPoints": ["./packages/logasjson/src/**/*.ts"],
     "excludePrivate": true
 }
