@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+docs
+.npmrc
+packages/logasjson/README.md
+packages/logasjson/SECURITY.md
+packages/logasjson/LICENSE.md

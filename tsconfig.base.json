@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "composite": true,
+      "module": "NodeNext",
+      "target": "es2022",
+      "declaration": true,
+      "declarationMap": true,
+      "strict": true,
+      "sourceMap": true,
+      "preserveConstEnums": false,
+      "exactOptionalPropertyTypes": true
+    }
+  }
+  

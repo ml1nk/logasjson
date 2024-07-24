@@ -1,0 +1,48 @@
+{
+    "name": "logasjson",
+    "version": "0.0.1",
+    "description": "JSON Logger with adapter for loki.",
+    "main": "dist/src/index.js",
+    "sideEffects": false,
+    "exports": {
+        "./classes/*": "./dist/src/classes/*.js",
+        "./helper/*": "./dist/src/helper/*.js",
+        "./types/*": "./dist/src/types/*.js",
+        "./enums/*": "./dist/src/enums/*.js"
+    },
+    "files": [
+        "/dist/src",
+        "README.md",
+        "SECURITY.md",
+        "LICENSE.md"
+    ],
+    "type": "module",
+    "keywords": [
+        "logger",
+        "json",
+        "loki"
+    ],
+    "author": {
+        "name": "Marcel Link",
+        "email": "marcel.link@t-online.de"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ml1nk/logasjson/issues"
+    },
+    "homepage": "https://ml1nk.github.io/logasjson/",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com:ml1nk/logasjson.git"
+    },
+    "dependencies": {
+        "json-cycle": "^1.5.0",
+        "object-path": "^0.11.8",
+        "serialize-error": "^11.0.3"
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.12",
+        "@types/object-path": "^0.11.4",
+        "nock": "^13.5.4"
+    }
+}
