@@ -1,14 +1,11 @@
 {
     "name": "logasjson",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "JSON Logger with adapter for loki.",
     "main": "dist/src/index.js",
     "sideEffects": false,
     "exports": {
-        "./classes/*": "./dist/src/classes/*.js",
-        "./helper/*": "./dist/src/helper/*.js",
-        "./types/*": "./dist/src/types/*.js",
-        "./enums/*": "./dist/src/enums/*.js"
+        ".": "./dist/src/index.js"
     },
     "files": [
         "/dist/src",

@@ -1,24 +1,36 @@
+import type { Override } from '../classes/Override.js'
 import type { LogLevel } from '../enums/loglevel.js'
 
+
+export interface LoggerContext extends LoggerForkOptions {
+  traceId?: string | undefined
+}
+
 export interface LoggerEntry {
-  context?: string
-  logger?: string
+  context?: string | undefined
+  logger?: string | undefined
   timestamp: number
   logLevel: LogLevel
   message: string
-  traceId?: string
+  traceId?: string | undefined
   [key: string]: any
 }
 
+export type LoggerInitOptions = Omit<LoggerOptions, 'override' | 'destination'> & { override?: Override | undefined, destination?: LoggerDestination | undefined }
+
 export interface LoggerOptions {
-  logLevel?: LogLevel | undefined
+  logLevel: LogLevel 
   data?: Record<string, any> | undefined
-  destination?: LoggerDestination | undefined
+  name?: string | undefined
+  destination: LoggerDestination
+  override: Override
+  context?: (() => LoggerContext | undefined) | undefined
 }
 
-export interface LoggerStaticOverride {
-  logger: string | undefined
-  context: string | undefined
+export interface LoggerForkOptions {
+  logLevel?: LogLevel | undefined
+  data?: Record<string, any> | undefined
+  name?: string | undefined
 }
 
 export type LoggerLog = (message: string, data?: Record<string, any>, trace?: boolean) => void

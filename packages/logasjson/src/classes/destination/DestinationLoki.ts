@@ -11,8 +11,7 @@ import { serializeError } from 'serialize-error'
 import { LogLevel } from '../../enums/loglevel.js'
 import type { LoggerDestination, LoggerDestinationBatch, LoggerEntry } from '../../types/logger.js'
 import type { LokiOptions, LokiStream } from '../../types/loki.js'
-import { Logger } from '../Logger.js'
-
+import { processLog } from '../../helper/processLog.js'
 export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiStream>> {
   readonly #url: URL
   readonly #fallback: LoggerDestination | undefined
@@ -35,7 +34,7 @@ export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiS
     if (p === undefined) p = new Map<string, LokiStream>()
     const key = JSON.stringify([data.context, data.logger, data.traceId, data.logLevel, ...Object.values(this.#labels)])
     const d = p.get(key)
-    if (d === undefined) p.set(key, { stream: Object.assign({ logger: data.logger, context: data.context, level: this.grafanaLevel(data.logLevel) }, this.#labels), values: [[data.timestamp.toString() + '000000', jc.stringify(serializeError(data))]] })
+    if (d === undefined) p.set(key, { stream: Object.assign({ logger: data.logger, context: data.context, level: this.#grafanaLevel(data.logLevel) }, this.#labels), values: [[data.timestamp.toString() + '000000', jc.stringify(serializeError(data))]] })
     else d.values.push([data.timestamp.toString() + '000000', jc.stringify(serializeError(data)) as string])
     return p
   }
@@ -43,8 +42,8 @@ export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiS
   public send (data: Map<string, LokiStream>): void {
     const d = [...data.values()]
     this.#promise = this.#promise.then(async () => {
-      await this.post(d).catch((e: Error) => {
-        this.#fallback?.write(Logger.processData(LogLevel.Error, 'context:loki', {}, e.message, { failed: d }, false))
+      await this.#post(d).catch((e: Error) => {
+        this.#fallback?.write(processLog(undefined, LogLevel.Error, 'context:loki', {}, e.message, { failed: d }, false))
       })
     })
   }
@@ -58,7 +57,7 @@ export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiS
     await this.#fallback?.flush?.()
   }
 
-  private grafanaLevel (logLevel: LogLevel): string {
+  #grafanaLevel (logLevel: LogLevel): string {
     switch (logLevel) {
       case LogLevel.Debug: return 'debug'
       case LogLevel.Info: return 'info'
@@ -68,7 +67,7 @@ export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiS
     }
   }
 
-  private async post (data: LokiStream[], headers: Record<string, string> = {}, timeout: number = 1000): Promise<void> {
+  async #post (data: LokiStream[], headers: Record<string, string> = {}, timeout: number = 1000): Promise<void> {
     const input = JSON.stringify({ streams: data })
 
     const buffer = this.#compression
