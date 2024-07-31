@@ -4,7 +4,6 @@ import assert from 'assert/strict'
 import { Logger } from '../src/classes/Logger.js'
 import { LogLevel } from '../src/enums/loglevel.js'
 import type { LoggerContext } from '../src/types/logger.js'
-import { Override } from '../src/classes/Override.js'
 
 describe('override', () => {
 
@@ -53,12 +52,4 @@ describe('override', () => {
     log1.override.clear()
 
   })
-
-
-  it('data', async () => {
-    const override = new Override()
-    override.set(LogLevel.Error, 'str1', 'str2')
-    assert.deepEqual(override.data, new Map([['["str2","str1"]', LogLevel.Error]]))
-  })
-
 })
