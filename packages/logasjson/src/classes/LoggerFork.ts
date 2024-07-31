@@ -7,20 +7,32 @@ import { processLog } from '../helper/processLog.js'
 export class LoggerFork {
   protected readonly options: LoggerOptions
 
+  /**
+   * LogLevel in the current context.
+   */
   get logLevel (): LogLevel {
     const context = this.options.context?.()
     return this.#contextLogLevel(context)
   }
 
+  /**
+   * TracveId in the current context.
+   */
   get traceId (): string | undefined {
     const context = this.options.context?.()
     return context?.traceId
   }
 
-  constructor (options: LoggerOptions) {
+  protected constructor (options: LoggerOptions) {
     this.options = options
   }
 
+  /**
+   * Fork logger, forked logger have the same override object and destination,
+   * but can have antoher logLevel and additional data.
+   * @param options
+   * @returns 
+   */
   fork (options: LoggerForkOptions = {}): LoggerFork {
     return new LoggerFork({
         logLevel: options.logLevel ?? this.options.logLevel,
@@ -32,18 +44,30 @@ export class LoggerFork {
       })
   }
 
+  /**
+   * Returns debug level log function if LogLevel is high enough.
+   **/ 
   get debug (): LoggerLog | undefined {
     return this.#log(LogLevel.Debug)
   }
 
+  /**
+   * Returns info level log function if LogLevel is high enough.
+   **/ 
   get info (): LoggerLog | undefined {
     return this.#log(LogLevel.Info)
   }
 
+  /**
+   * Returns warn level log function if LogLevel is high enough.
+   **/ 
   get warn (): LoggerLog | undefined {
     return this.#log(LogLevel.Warn)
   }
 
+  /**
+   * Returns error level log function if LogLevel is high enough.
+   **/ 
   get error (): LoggerLog | undefined {
     return this.#log(LogLevel.Error)
   }

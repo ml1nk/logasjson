@@ -1,5 +1,8 @@
 import type { LoggerDestination, LoggerDestinationBatch, LoggerEntry } from '../../types/logger.js'
 
+/**
+ * DestinationBatch delays writing of logs to batch them.
+ */
 export class DestinationBatch<T> implements LoggerDestination {
   readonly #interval: number
   readonly #destination: LoggerDestinationBatch<T>

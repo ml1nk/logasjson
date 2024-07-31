@@ -1,6 +1,9 @@
 import { LogLevel } from '../../enums/loglevel.js'
 import type { LoggerDestination, LoggerEntry } from '../../types/logger.js'
 
+/**
+ * Write message and only message to stdout (LogLevel < Error) or stderr (LogLevel >= Error).
+ */
 export class DestinationMessage implements LoggerDestination {
   public write (data: LoggerEntry): void {
     if (data.logLevel >= LogLevel.Error) process.stderr.write(data.message + '\n')

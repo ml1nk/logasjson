@@ -12,6 +12,10 @@ import { LogLevel } from '../../enums/loglevel.js'
 import type { LoggerDestination, LoggerDestinationBatch, LoggerEntry } from '../../types/logger.js'
 import type { LokiOptions, LokiStream } from '../../types/loki.js'
 import { processLog } from '../../helper/processLog.js'
+
+/**
+ * Log as JSON to Loki. Supports fallback (alternative logger if loki is down) and batching.
+ */
 export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiStream>> {
   readonly #url: URL
   readonly #fallback: LoggerDestination | undefined

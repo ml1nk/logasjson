@@ -1,5 +1,8 @@
 import type { LoggerDestination, LoggerEntry } from '../../types/logger.js'
 
+/**
+ * Allows to combine multiple destination into one.
+ */
 export class DestinationArray implements LoggerDestination {
   readonly #destinations: LoggerDestination[]
 
