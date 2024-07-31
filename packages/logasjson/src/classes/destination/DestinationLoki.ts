@@ -67,7 +67,7 @@ export class DestinationLoki implements LoggerDestinationBatch<Map<string, LokiS
     }
   }
 
-  async #post (data: LokiStream[], headers: Record<string, string> = {}, timeout: number = 1000): Promise<void> {
+  async #post (data: LokiStream[], headers: Record<string, string> = {}, timeout = 1000): Promise<void> {
     const input = JSON.stringify({ streams: data })
 
     const buffer = this.#compression
